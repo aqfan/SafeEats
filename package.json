@@ -4,7 +4,7 @@
   "description": "hi",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node start.js"
   },
   "dependencies": {
     "express": "^4.13.3"
