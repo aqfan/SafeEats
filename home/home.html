@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+	<script src="script.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAWK-7YEOZJBn2kAdAf6-6NA2f1SGjr-o&callback=initMap"
+	async defer></script>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body ng-app="homeApp">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="#">SafeEats</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="#">Home</a></li>
+	      <li><a href="#">Preferences</a></li>
+	      <li><a href="#">Find a Restaurant</a></li>
+	      <li><a href="#">Sign Out</a></li>
+	    </ul>
+	  </div>
+	</nav>
+
+	<div class="homeContent">
+
+		<h1> Welcome to SafeEats! </h1>
+		<div ng-controller="homeController" class="details">
+
+			<form ng-submit="submit()"> 
+				Enter to search a restaurant:<br>
+				<input type="text" name="input" ng-model="input"><br>
+				<input type="submit" id="submit" value="Submit">
+			</form>
+
+			<div ng-hide="{{restaurant}}">
+				{{ restaurant }}
+			</div>
+		</div>
+
+		<div class="map" id="map"></div>
+	</div>
+</body>
+</html>
