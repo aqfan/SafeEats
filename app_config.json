@@ -1,0 +1,5 @@
+{
+  "AWS_REGION": "us-west-2",
+  "STARTUP_SIGNUP_TABLE": "SafeEats_db",
+  "NEW_SIGNUP_TOPIC": "arn:aws:sns:us-west-2:945694273113:SafeEats_notifications"
+}
