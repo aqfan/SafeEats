@@ -137,6 +137,56 @@ app.get('/addNewUser', function(request, response) {
     });
 });
 
+app.get('/checkPostalCodeExists', function(request, response) {
+  var username = parseInt(request.query.zipcode);
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'SELECT POSTAL_CODE FROM RESTAURANTS ' +
+        'WHERE POSTAL_CODE = ' + username,
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json(result.rows);
+        });
+    });
+});
+
+app.get('/saveRating', function(request, response) {
+  var rating = parseInt(request.query.rating);
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'INSERT INTO PREFERENCES (USERNAME, RATING) ' +
+        'VALUES (\'' + username + '\', \'' + password + '\')',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json();
+        });
+    });
+});
+
 app.listen(app.get('port'), function() {
   console.log("Node app is running at localhost:" + app.get('port'))
 })

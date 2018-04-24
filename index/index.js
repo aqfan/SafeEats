@@ -14,6 +14,7 @@ app.controller('log-in', function($scope, $http, $window) {
     }
 
     if(!(data.password) || data.password.trim() == '') {
+      angular.element( document.querySelector('#password')).attr('data-validate', 'Password is required');;
       angular.element( document.querySelector('#password')).addClass('alert-validate');
       correct = false;
     } else {
@@ -28,6 +29,9 @@ app.controller('log-in', function($scope, $http, $window) {
             $http.get('/setUsername', {params: data}).success(function() {
               $window.location.href = '/main';
             })
+          } else {
+            angular.element( document.querySelector('#password')).attr('data-validate', 'Password is incorrect');
+            angular.element( document.querySelector('#password')).addClass('alert-validate');
           }
         } else {
           angular.element( document.querySelector('#username')).attr('data-validate', 'User does not exist');
