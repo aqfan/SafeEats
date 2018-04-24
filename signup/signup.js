@@ -14,6 +14,8 @@
             if(validate(input[i]) == false){
                 showValidate(input[i]);
                 check=false;
+            } else {
+              
             }
         }
 
@@ -51,7 +53,7 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
-    
-    
+
+
 
 })(jQuery);

@@ -52,12 +52,6 @@ $('.slideshow-left').slick({
       $(".yes").hide();
       $(".no").hide();
     }
-
-    //  else if (event.keyCode == 37) {
-    //   $(this).slick('slickNext');
-    //   $(".yes").hide();
-    //   $(".no").hide();
-    // }
 }).on('keydown', function(event) {
     event.preventDefault();
     if (event.keyCode == 38) {

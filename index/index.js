@@ -9,11 +9,15 @@
 
     $('.validate-form').on('submit',function(){
         var check = true;
-
         for(var i=0; i<input.length; i++) {
             if(validate(input[i]) == false){
                 showValidate(input[i]);
                 check=false;
+            } else {
+              console.log("yes");
+              $.get('/getAllRest', function(data){
+                console.log(data + ' posted successfully');
+              });
             }
         }
 
@@ -51,7 +55,7 @@
 
         $(thisAlert).removeClass('alert-validate');
     }
-    
-    
+
+
 
 })(jQuery);
