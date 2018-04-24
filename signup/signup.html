@@ -26,10 +26,13 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-</head>
-<body>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+<script src="/signup.js"></script>
 
-	<div class="limiter">
+</head>
+
+<body ng-app="signup">
+	<div class="limiter" ng-controller="sign-up">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w">
@@ -42,8 +45,8 @@
 							Username
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" >
+					<div class="wrap-input100 validate-input" data-validate = "Username is required" id="username">
+						<input class="input100" type="text" ng-model="username">
 						<span class="focus-input100"></span>
 					</div>
 
@@ -52,8 +55,8 @@
 							Password
 						</span>
 
-						<div class="wrap-input100 validate-input" data-validate = "Password is required">
-							<input class="input100" type="password" name="pass" >
+						<div class="wrap-input100 validate-input" data-validate = "Password is required" id="password">
+							<input class="input100" type="text" ng-model="password">
 							<span class="focus-input100"></span>
 						</div>
 
@@ -62,13 +65,13 @@
 								Confirm Password
 							</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" >
+					<div class="wrap-input100 validate-input" data-validate = "Password confirmation is required" id="confirm_password">
+						<input class="input100" type="text" ng-model="confirm_password">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" ng-click="submit()">
 							Sign Up
 						</button>
 					</div>
@@ -105,7 +108,6 @@
 <!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="signup.js"></script>
 
 </body>
 </html>

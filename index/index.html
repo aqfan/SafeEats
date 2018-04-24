@@ -27,11 +27,12 @@
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
 <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+<script src="/index.js"></script>
 
 </head>
-<body>
+<body ng-app="index">
 
-	<div class="limiter">
+	<div class="limiter" ng-controller="log-in">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 				<form class="login100-form validate-form flex-sb flex-w">
@@ -54,8 +55,8 @@
 							Username
 						</span>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" >
+					<div class="wrap-input100 validate-input" data-validate = "Username is required" id="username">
+						<input class="input100" type="text" name="username" ng-model="username">
 						<span class="focus-input100"></span>
 					</div>
 
@@ -68,13 +69,13 @@
 							Forgot?
 						</a>
 					</div>
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="pass" >
+					<div class="wrap-input100 validate-input" data-validate = "Password is required" id="password">
+						<input class="input100" type="text" name="pass" ng-model="password">
 						<span class="focus-input100"></span>
 					</div>
 
 					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
+						<button class="login100-form-btn" ng-click="submit()">
 							Sign In
 						</button>
 					</div>
@@ -111,7 +112,6 @@
 <!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-	<script src="index.js"></script>
 
 </body>
 </html>

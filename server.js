@@ -7,6 +7,8 @@ AWS.config.region = process.env.REGION;
 
 var oracledb = require('oracledb');
 
+var username;
+
 app.set('port', (process.env.PORT || 8080));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,18 +44,6 @@ app.get('/preferences.js', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'preferences/preferences.js'));
 })
 
-app.get('/home', function(request, response) {
-	response.sendFile(path.join(__dirname, '/', 'home/home.html'));
-})
-
-app.get('/home.js', function(request, response) {
-	response.sendFile(path.join(__dirname, '/', 'home/home.js'));
-})
-
-app.get('/signup', function(request, response) {
-	response.sendFile(path.join(__dirname, '/', 'signup/signup.html'));
-})
-
 app.get('/find_restaurant', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'find_restaurant/find_restaurant.html'));
 })
@@ -68,6 +58,11 @@ app.get('/selector', function(request, response) {
 
 app.get('/selector.js', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'selector/selector.js'));
+})
+
+app.get('/setUsername', function(request, response) {
+  username = request.query.username;
+  response.json();
 })
 
 app.get('/getAllRest', function(request, response) {
@@ -87,6 +82,57 @@ app.get('/getAllRest', function(request, response) {
           if (err) { console.error(err); return; }
         //  console.log(result.rows);
           response.json(result.rows);
+        });
+    });
+});
+
+app.get('/checkUsernameExists', function(request, response) {
+  var username = request.query.username.toLowerCase();
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'SELECT * FROM LOGIN ' +
+        'WHERE USERNAME = \'' + username + '\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json(result.rows);
+        });
+    });
+});
+
+app.get('/addNewUser', function(request, response) {
+  var username = request.query.username;
+  var password = request.query.password;
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'INSERT INTO LOGIN (USERNAME, PASSWORD) ' +
+        'VALUES (\'' + username + '\', \'' + password + '\')',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json();
         });
     });
 });
