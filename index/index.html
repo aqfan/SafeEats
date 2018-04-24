@@ -26,7 +26,8 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+<script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
 <script src="/index.js"></script>
 
 </head>
@@ -40,7 +41,11 @@
 						Welcome to SafeEats - Sign In!
 					</span>
 
-					<a href="#" class="btn-face m-b-20">
+					<a href="#" 
+						class="btn-face m-b-20"
+						onclick="fblogin();"
+						scope="public_profile,email"
+						onlogin="checkLoginState();">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>

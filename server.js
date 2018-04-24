@@ -5,7 +5,7 @@ var path=require('path');
 var AWS = require('aws-sdk');
 AWS.config.region = process.env.REGION;
 
-var oracledb = require('oracledb');
+// var oracledb = require('oracledb');
 
 var username;
 
