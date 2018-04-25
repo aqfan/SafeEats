@@ -8,8 +8,7 @@ AWS.config.region = process.env.REGION;
 
 var oracledb = require('oracledb');
 
-var username;
-var email;
+var username = 'angel';
 
 app.set('port', (process.env.PORT || 8080));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -153,16 +152,6 @@ app.get('/addNewUser', function(request, response) {
             if (error) {console.error(error); return;}
           });
         });
-      connection.execute(
-        'INSERT INTO PREF_CUISINE (USERNAME) ' +
-        'VALUES (\'' + username + '\')',
-        function(err, result)
-        {
-          if (err) { console.error(err); return; }
-          connection.commit(function(error) {
-            if (error) {console.error(error); return;}
-          });
-      });
       response.json();
 
     });
@@ -287,6 +276,81 @@ app.get('/saveSafetyTolerance', function(request, response) {
         'UPDATE PREFERENCES '+
         'SET CRIME_RATES = '+ safety_tolerance +
         'WHERE USERNAME = \''+ username +'\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json();
+        });
+    });
+});
+
+app.get('/checkCuisinePrefs', function(request, response) {
+  var cuisine = request.query.cuisine;
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'SELECT * FROM PREF_CUISINE ' +
+        'WHERE USERNAME = \'' + username + '\' ' +
+        'AND CUISINE = \'' + cuisine + '\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          response.json(result.rows);
+        });
+    });
+});
+
+app.get('/saveCuisinePrefs', function(request, response) {
+  var cuisine = request.query.cuisine;
+  console.log(cuisine);
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'INSERT INTO PREF_CUISINE (USERNAME, CUISINE) '+
+        'VALUES (\''+ username + '\', \''+ cuisine +'\')',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json();
+        });
+    });
+});
+
+app.get('/deleteCuisinePrefs', function(request, response) {
+  var cuisine = request.query.cuisine;
+  console.log(cuisine);
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'DELETE FROM PREF_CUISINE '+
+        'WHERE USERNAME = \''+ username + '\' AND CUISINE = \''+ cuisine +'\'',
         function(err, result)
         {
           if (err) { console.error(err); return; }
