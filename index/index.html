@@ -28,7 +28,12 @@
 <!--===============================================================================================-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
 <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://apis.google.com/js/api:client.js"></script>
+<script src="https://smartlock.google.com/client" async defer></script>
 <script src="/index.js"></script>
+
+<meta name="google-signin-client_id" content="59500994529-anrq8k9gqqbpk6ed67rupqmvcrng3i2g.apps.googleusercontent.com">
 
 </head>
 <body ng-app="index">
@@ -50,10 +55,15 @@
 						Facebook
 					</a>
 
-					<a href="#" class="btn-google m-b-20">
-						<img src="images/icons/icon-google.png" alt="GOOGLE">
-						Google
+					<a href="#" class="btn-google m-b-20" onclick="googlelogin();">
+						<div id="gSignInWrapper">
+							<div id="customBtn" class="customGPlusSignIn">
+								<img src="images/icons/icon-google.png" alt="GOOGLE">
+								Google
+							</div>
+						</div>
 					</a>
+					
 
 					<div class="p-t-31 p-b-9">
 						<span class="txt1">
