@@ -134,6 +134,8 @@ app.controller('pref', function($scope, $http, $window) {
         })
       })(i);
     }
+
+    alert("Preferences have been saved!");
   }
 });
 

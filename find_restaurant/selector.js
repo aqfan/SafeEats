@@ -4,6 +4,7 @@ var list = [];
 //Hide the Yes and Eww Text
 $(".yes").hide();
 $(".no").hide();
+$(".pleaseWait").show();
 
 $(function(){
   $(".action-logout").click(function(e){
@@ -65,6 +66,8 @@ function runRest() {
     '</span><span>Crime:<text id="crime_' + a + '">' + crimeText +
     '</text></span><span id="range_' + a + '">' + dollarText + '</span></div>';
   }
+
+  $(".pleaseWait").hide();
 
   //Create functionality for the slider.
   $(document).ready(function(){

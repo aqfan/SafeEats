@@ -33,35 +33,23 @@ app.controller("ListController", function($scope, $http) {
     }
   })
 
-
-
-        $scope.remove = function(){
-            var newDataList=[];
-            $scope.selectedAll = false;
-            angular.forEach($scope.myRestaurants, function(selected){
-                if(!selected.selected){
-                    newDataList.push(selected);
-                } else {
-                  //delete from myRestaurants
-                  console.log(selected);
-                  $http.get('/deleteMyRestaurants', {params: selected}).success(function(e) {
-                    console.log("Deleted " + e);
-                  })
-                }
-            });
-            $scope.myRestaurants = newDataList;
-        };
-
-    $scope.checkAll = function () {
-        if (!$scope.selectedAll) {
-            $scope.selectedAll = true;
-        } else {
-            $scope.selectedAll = false;
-        }
-        angular.forEach($scope.myRestaurants, function(personalDetail) {
-            personalDetail.selected = $scope.selectedAll;
-        });
-    };
+  
+  $scope.remove = function(){
+    var newDataList=[];
+    $scope.selectedAll = false;
+    angular.forEach($scope.myRestaurants, function(selected){
+      if(!selected.selected){
+        newDataList.push(selected);
+      } else {
+        //delete from myRestaurants
+        console.log(selected);
+        $http.get('/deleteMyRestaurants', {params: selected}).success(function(e) {
+          console.log("Deleted " + e);
+        })
+      }
+    });
+    $scope.myRestaurants = newDataList;
+  };
 });
 
 
