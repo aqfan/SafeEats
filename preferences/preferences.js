@@ -20,6 +20,17 @@ app.controller('pref', function($scope, $http, $window) {
     {name:"Desserts", selected: false}
   ];
 
+  //initialize cuisine preferences
+  for(var i = 0; i < $scope.cuisineList.length; i++) {
+    (function(i) {
+      $http.get('/checkCuisinePrefs', {params: {cuisine:$scope.cuisineList[i].name}}).success(function(e) {
+        if (e.length == 1) {
+          $scope.cuisineList[i].selected = true;
+        }
+      })
+    })(i);
+  }
+
   var user_preferences;
   $http.get('/getUserPreferences').success(function(e) {
     user_preferences = e;
@@ -122,8 +133,6 @@ app.controller('pref', function($scope, $http, $window) {
           }
         })
       })(i);
-
-
     }
 
 

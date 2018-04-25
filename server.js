@@ -51,16 +51,16 @@ app.get('/find_restaurant', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'find_restaurant/find_restaurant.html'));
 })
 
+app.get('/saved_restaurants.js', function(request, response) {
+	response.sendFile(path.join(__dirname, '/', 'saved_restaurants/saved_restaurants.js'));
+})
+
 app.get('/saved_restaurants', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'saved_restaurants/saved_restaurants.html'));
 })
 
-app.get('/selector', function(request, response) {
-	response.sendFile(path.join(__dirname, '/', 'selector/selector.html'));
-})
-
 app.get('/selector.js', function(request, response) {
-	response.sendFile(path.join(__dirname, '/', 'selector/selector.js'));
+	response.sendFile(path.join(__dirname, '/', 'find_restaurant/selector.js'));
 })
 
 app.get('/logout', function(request, response) {
@@ -74,7 +74,7 @@ app.get('/setUsername', function(request, response) {
   response.json(username);
 })
 
-app.get('/getAllRest', function(request, response) {
+app.get('/getMyRestaurants', function(request, response) {
   oracledb.getConnection(
     {
       user          : "SafeEats",
@@ -85,7 +85,73 @@ app.get('/getAllRest', function(request, response) {
     {
       if (err) { console.error('oracle-error:'+err); return; }
       connection.execute(
-        'SELECT NAME, STARS FROM RESTAURANTS',
+        'SELECT Name, Stars, Price_Range, Address, Postal_Code, Crime_Rates, Restaurants.business_ID ' +
+        'FROM Saved_rest JOIN Restaurants ' +
+        'ON Saved_rest.business_id = Restaurants.business_ID ' +
+        'WHERE username = \'' + username + '\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+        //  console.log(result.rows);
+          response.json(result.rows);
+        });
+    });
+});
+
+
+app.get('/deleteMyRestaurants', function(request, response) {
+  var business_id = request.query.id;
+  console.log(business_id);
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'DELETE FROM SAVED_REST '+
+        'WHERE USERNAME = \''+ username + '\' AND BUSINESS_ID = \''+ business_id +'\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json(business_id);
+        });
+    });
+});
+
+app.get('/getRestaurants', function(request, response) {
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'WITH T1 AS (SELECT Username, Business_id, Restaurants.Name, Restaurants.Stars, Restaurants.Price_Range, Address, Restaurants.Postal_Code, Restaurants.Crime_Rates '+
+        'FROM Restaurants JOIN Preferences ON '+
+        'preferences.Stars <= Restaurants.Stars '+
+        'AND '+
+        'Restaurants.crime_rates <= preferences.crime_rates '+
+        'AND '+
+        'Restaurants.price_range = preferences.Price_range '+
+        'WHERE Username LIKE \'' + username + '\'), '+
+        'T2 AS (SELECT Username, T1.Business_id, photo_id, T1.Name, T1.Stars, T1.Price_Range, Address, T1.Postal_Code, T1.Crime_Rates '+
+        'FROM T1 JOIN PHOTOS ON '+
+        'T1.business_id = photos.business_id), '+
+        'T3 AS (SELECT Username, Name, Stars, Price_Range, Address, Postal_Code, Crime_Rates '+
+        'FROM Restaurants JOIN Pref_cuisine ON '+
+        'Restaurants.Categories LIKE (\'%\'||Pref_cuisine.cuisine||\'%\') '+
+        'WHERE Username LIKE \'' + username + '\') '+
+        'SELECT DISTINCT T2.Username, T2.photo_id, T2.business_id, T2.Name, T2.Stars, T2.Price_range, T2.Address, T2.Postal_code, T2.crime_Rates FROM T2 JOIN T3 ON T2.username = T3.username',
         function(err, result)
         {
           if (err) { console.error(err); return; }
@@ -382,6 +448,55 @@ app.get('/getUserPreferences', function(request, response) {
             if (error) {console.error(error); return;}
           })
           response.json(result.rows);
+        });
+    });
+});
+
+
+app.get('/checkMyRestaurant', function(request, response) {
+  var business_id = request.query.id;
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'SELECT * FROM SAVED_REST ' +
+        'WHERE USERNAME = \'' + username + '\' ' +
+        'AND BUSINESS_ID = \'' + business_id + '\'',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          response.json(result.rows);
+        });
+    });
+});
+
+app.get('/addMyRestaurant', function(request, response) {
+  var business_id = request.query.id;
+  oracledb.getConnection(
+    {
+      user          : "SafeEats",
+      password      : "cis450project",
+      connectString : "(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = Cis450project.c42vw5k2slsd.us-east-1.rds.amazonaws.com)(PORT = 1521))(CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCL)))"
+    },
+    function(err, connection)
+    {
+      if (err) { console.error('oracle-error:'+err); return; }
+      connection.execute(
+        'INSERT INTO SAVED_REST (USERNAME, BUSINESS_ID) '+
+        'VALUES (\''+ username + '\', \''+ business_id +'\')',
+        function(err, result)
+        {
+          if (err) { console.error(err); return; }
+          connection.commit(function(error) {
+            if (error) {console.error(error); return;}
+          })
+          response.json(business_id);
         });
     });
 });

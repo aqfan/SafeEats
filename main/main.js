@@ -5,11 +5,6 @@ app.controller('homeController', function($scope, $http) {
         if ($scope.input)
             $scope.restaurant = $scope.input;
     }
-    console.log("yes");
-    $http.get('/getAllRest').success(function(data){
-      console.log(data + ' posted successfully');
-      $scope.data = data;
-    });
 });
 
 var map;
