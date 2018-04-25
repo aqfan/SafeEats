@@ -65,28 +65,28 @@
 
           <div class="p-t-31 p-b-9">
             <span class="txt1">
-              Minimum Star Rating 1-5
+              Minimum Star Rating 1-4
             </span>
           </div>
           <div class="wrap-input100 validate-input" data-validate = "Not between 1-5" id="rating">
-            <input class="input100" type="text" name="rating" ng-model="rating">
-            <span class="focus-input100"></span>
+            <input class="input100" type="text" ng-model="rating">
+            <span class="focus-input100" id="rating_text"></span>
           </div>
 
           <div class="p-t-31 p-b-9">
             <span class="txt1">
-              Preferred Price Range - $, $$, $$$
+              Preferred Price Range - $, $$, $$$, $$$$
             </span>
           </div>
           <div class="wrap-input100 validate-input" data-validate = "Wrong format" id="price_range">
             <select name="price_range" class="form-control input100" ng-model="price_range">
-              <option value="1">$</option>
-              <option value="2">$$</option>
-              <option value="3">$$$</option>
+              <option value="1" id="price_range_1">$</option>
+              <option value="2" id="price_range_2">$$</option>
+              <option value="3" id="price_range_3">$$$</option>
+              <option value="4" id="price_range_4">$$$$</option>
             </select>
             <span class="focus-input100"></span>
           </div>
-
 
           <div class="p-t-31 p-b-9">
             <span class="txt1">
@@ -94,8 +94,8 @@
             </span>
           </div>
           <div class="wrap-input100 validate-input" data-validate = "Must be a number" id="zipcode">
-            <input class="input100" type="text" name="zipcode" ng-model="zipcode">
-            <span class="focus-input100"></span>
+            <input class="input100" type="text" ng-model="zipcode">
+            <span class="focus-input100" id="zipcode_text"></span>
           </div>
 
           <div class="p-t-31 p-b-9">
@@ -105,10 +105,10 @@
           </div>
           <div class="wrap-input100 validate-input" data-validate = "Safety tolerance is required" id="safety_tolerance">
             <select name="safety_tolerance" class="form-control input100" ng-model="safety_tolerance">
-              <option value="1">Low Crime</option>
-              <option value="2">Somewhat Low Crime</option>
-              <option value="3">Medium Crime Rate</option>
-              <option value="4">Feeling Brave</option>
+              <option value="1" id="safety_tolerance_1">Low Crime</option>
+              <option value="2" id="safety_tolerance_2">Somewhat Low Crime</option>
+              <option value="3" id="safety_tolerance_3">Medium Crime Rate</option>
+              <option value="4" id="safety_tolerance_4">Feeling Brave</option>
             </select>
             <span class="focus-input100"></span>
           </div>

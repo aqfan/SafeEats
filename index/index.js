@@ -2,7 +2,7 @@ var app = angular.module('index',[]);
 
 app.controller('log-in', function($scope, $http, $window) {
   $scope.submit = function() {
-    var data = {username: $scope.username, password: $scope.password, confirm_password: $scope.confirm_password};
+    var data = {username: $scope.username, password: $scope.password};
     var correct = true;
 
     if(!(data.username) || data.username.trim() == '') {
@@ -70,31 +70,48 @@ function attachSignin(element) {
   auth2.attachClickHandler(element, {},
     function(googleUser) {
       var credential = {
-        "email": googleUser.getBasicProfile().getEmail(),
-        "name": googleUser.getBasicProfile().getName()
+        "username": googleUser.getBasicProfile().getEmail(),
+        "password": googleUser.getBasicProfile().getName()
       }
-      console.log(credential);
 
       $.ajax({
-        url: "/checkGoogle", 
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(credential)
-      }).fail(function(e) {
-        console.log(e.status);
-        alert( "You did not previously have an account with us on your Google account - but now you do!");
-        $.ajax({
-          url: "/addGoogle", 
-          type: 'POST',
-          contentType: 'application/json',
-          data: JSON.stringify(credential)
-        });
+        url: "/checkUsernameExists",
+        type: 'GET',
+        data: credential,
+        success: function(exists) {
+          if (exists.length == 1) {
+            $.ajax({
+              url: "/setUsername",
+              type: 'GET',
+              data: credential,
+              success: function(e) {
+                window.location.href = "/main";
+              }, error: function(e) {
+                console.log(e);
+              }
+            });
+          } else {
+            $.ajax({
+              url: "/addNewUser",
+              type: 'GET',
+              data: credential,
+              success: function(e) {
+                $.ajax({
+                  url: "/setUsername",
+                  type: 'GET',
+                  data: credential,
+                  success: function(e) {
+                    alert( "You did not previously have an account with us on your Google account - but now you do!");
+                    window.location.href = "/main";
+                  }
+                });
+              }
+            });
+          }
+        }, error: function(e) {
+          console.log(e);
+        }
       });
-
-      // var xhr = new XMLHttpRequest();
-      // xhr.open( "POST", "/checkGoogle");
-      // xhr.setRequestHeader("content-type", "application/json;charset=UTF-8");
-      // xhr.send(JSON.stringify(credential));
 
     }, function(error) {
       console.log(error);
@@ -103,7 +120,7 @@ function attachSignin(element) {
 
 function googlelogout() {
   $.ajax({
-    url: "/logout", 
+    url: "/logout",
     type: 'GET'
   })
 }

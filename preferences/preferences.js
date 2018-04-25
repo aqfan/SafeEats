@@ -24,11 +24,24 @@ app.controller('pref', function($scope, $http, $window) {
     cuisine: []
   };
 
+  var user_preferences;
+  $http.get('/getUserPreferences').success(function(e) {
+    user_preferences = e;
+    $scope.rating = e[0][1];
+    $scope.price_range = e[0][2];
+    angular.element( document.querySelector('#price_range_'+e[0][2])).attr('selected','');
+    angular.element( document.querySelector('#zipcode_text')).html(e[0][3]);
+    angular.element( document.querySelector('#safety_tolerance_'+e[0][4])).attr('selected','');
+  });
+
+
   $scope.submit = function() {
     var data = {rating: $scope.rating,
       price_range: $scope.price_range,
       zipcode: $scope.zipcode,
       safety_tolerance: $scope.safety_tolerance};
+
+    console.log(data);
     var correct = true;
 
     if(data.rating && data.rating.trim() != '') {
@@ -38,22 +51,24 @@ app.controller('pref', function($scope, $http, $window) {
         angular.element( document.querySelector('#rating')).addClass('alert-validate');
         correct = false;
       } else if (i < 1 || i > 5) {
-        angular.element( document.querySelector('#rating')).attr('data-validate', 'Rating must be between 1-5');
+        angular.element( document.querySelector('#rating')).attr('data-validate', 'Rating must be between 1-4');
         angular.element( document.querySelector('#rating')).addClass('alert-validate');
         correct = false;
       } else {
         //save rating
         angular.element( document.querySelector('#rating')).removeClass('alert-validate');
-        // $http.get('/saveRating', {params: data}).success(function() {
-        //   $window.location.href = '/main';
-        // })
+        $http.get('/saveRating', {params: data}).success(function() {
+          console.log("Rating saved!")
+        })
       }
     } else {
       angular.element( document.querySelector('#rating')).removeClass('alert-validate');
     }
 
-    if(data.rating) {
-      //save rating
+    if(data.price_range) {
+      $http.get('/savePriceRange', {params: data}).success(function() {
+        console.log("Price range saved!")
+      })
     }
 
     if(data.zipcode && data.zipcode.trim() != '') {
@@ -70,6 +85,9 @@ app.controller('pref', function($scope, $http, $window) {
           } else {
             //save zipcode
             angular.element( document.querySelector('#zipcode')).removeClass('alert-validate');
+            $http.get('/saveZipcode', {params: data}).success(function() {
+              console.log("Zipcode saved!")
+            })
           }
         })
       }
@@ -84,7 +102,18 @@ app.controller('pref', function($scope, $http, $window) {
     // 0.75    16799.00
     // 1.00    54126.00
     if(data.safety_tolerance) {
-      //save safety_tolerance
+      if (data.safety_tolerance == 1) {
+        data.safety_tolerance = 1453;
+      } else if (data.safety_tolerance == 2) {
+        data.safety_tolerance = 6608;
+      } else if (data.safety_tolerance == 3) {
+        data.safety_tolerance = 16799;
+      } else {
+        data.safety_tolerance = 54126;
+      }
+      $http.get('/saveSafetyTolerance', {params: data}).success(function() {
+        console.log("Safety tolerance saved!")
+      })
     }
 
     //check cuisine preferences
