@@ -1,16 +1,19 @@
 var express = require('express');
 var app = express();
 var path=require('path');
+var parser = require("body-parser");
 
 var AWS = require('aws-sdk');
 AWS.config.region = process.env.REGION;
 
-// var oracledb = require('oracledb');
+var oracledb = require('oracledb');
 
 var username;
+var email;
 
 app.set('port', (process.env.PORT || 8080));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(parser.json());
 
 app.get('/', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'index/index.html'));
@@ -58,6 +61,16 @@ app.get('/selector', function(request, response) {
 
 app.get('/selector.js', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'selector/selector.js'));
+})
+
+app.post('/setGoogle', function(request, response) {
+  console.log(request.body.id);
+  email = request.body.id;
+})
+
+app.get('/logout', function(request, response) {
+  console.log("logging out");
+  username = "";
 })
 
 app.get('/setUsername', function(request, response) {
