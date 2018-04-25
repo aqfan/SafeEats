@@ -9,11 +9,21 @@ var list = [
 
 //Insert HTML for the restaurants
 var a;
+var b;
+var dollarText;
 for (a = 0; a < list.length; a++) {
-  // console.log("HI");
-  document.getElementById('image_slider').innerHTML = document.getElementById('image_slider').innerHTML + '<div class="item"><img id="image_' + a + '" src="' + list[a].image + '" /></div>';
-  document.getElementById('text_slider').innerHTML = document.getElementById('text_slider').innerHTML + '<div class="item" id="' + a + '"><span id="names_' + a + '">' + list[a].names + 
-  '</span><span>Crime:<text id="crime_' + a + '">' + list[a].crime + '</text></span><span id="cuisine_' + a + '">' + list[a].cuisine + '</span><span id="range_' + a + '">' + list[a].range + '</span></div>';
+  dollarText = "";
+  for(b = 0; b < list[a].range; b++) {
+    dollarText = dollarText + "$";
+  }
+
+  document.getElementById('image_slider').innerHTML = document.getElementById('image_slider').innerHTML + 
+                                                      '<div class="item"><img id="image_' + a + '" src="' + list[a].image + '" /></div>';
+  document.getElementById('text_slider').innerHTML = document.getElementById('text_slider').innerHTML + 
+                                                      '<div class="item" id="' + a + '"><span id="names_' + a + '">' + list[a].names + 
+                                                      '</span><span>Crime:<text id="crime_' + a + '">' + list[a].crime + 
+                                                      '</text></span><span id="cuisine_' + a + '">' + list[a].cuisine + 
+                                                      '</span><span id="range_' + a + '">' + dollarText + '</span></div>';
 }
 
 //Hide the Yes and Eww Text
