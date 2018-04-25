@@ -7,6 +7,19 @@ var allRestaurants = [];
 $(".yes").hide();
 $(".no").hide();
 
+$(function(){
+  $(".action-logout").click(function(e){
+    $.ajax({
+      url: "/logout",
+      type: 'GET',
+      success: function(res) {
+        alert("You've been logged out!");
+        window.location.href = "/";
+      }
+    })
+  })
+});
+
 $.ajax({
   url: "/getRestaurants",
   type: 'GET',

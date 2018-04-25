@@ -62,6 +62,18 @@ app.controller("ListController", function($scope, $http) {
             personalDetail.selected = $scope.selectedAll;
         });
     };
+});
 
 
+$(function(){
+  $(".action-logout").click(function(e){
+    $.ajax({
+      url: "/logout",
+      type: 'GET',
+      success: function(res) {
+        alert("You've been logged out!");
+        window.location.href = "/";
+      }
+    })
+  })
 });

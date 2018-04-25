@@ -76,39 +76,13 @@ function initMap() {
 
 $(function(){
   $(".action-logout").click(function(e){
-    fblogout();
-    console.log("BYE");
-    e.preventDefault();
+    $.ajax({
+      url: "/logout",
+      type: 'GET',
+      success: function(res) {
+        alert("You've been logged out!");
+        window.location.href = "/";
+      }
+    })
   })
 });
-
-window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '612209052456843',
-    cookie     : true,
-    xfbml      : true,
-    version    : 'v2.8'
-  });
-
-  FB.AppEvents.logPageView();
-};
-
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=612209052456843&autoLogAppEvents=1';
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-
-function fblogout() {
-  FB.getLoginStatus(function(response) {
-    console.log(response);
-    if (response && response.status === 'connected') {
-      FB.logout(function(response) {
-        window.location = '/';
-      });
-    }
-  });
-}

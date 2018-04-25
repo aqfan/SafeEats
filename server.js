@@ -66,6 +66,7 @@ app.get('/selector.js', function(request, response) {
 app.get('/logout', function(request, response) {
   console.log("logging out");
   username = "";
+  response.json(username);
 })
 
 app.get('/setUsername', function(request, response) {
