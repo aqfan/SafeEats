@@ -16,8 +16,8 @@
     "path": "^0.12.7"
   },
   "engines": {
-    "node": "4.0.0"
+    "node": "4.7.0"
   },
-  "author": "wsheng",
+  "author": "aqfan",
   "license": "ISC"
 }
