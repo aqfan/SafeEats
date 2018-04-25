@@ -18,6 +18,52 @@
 //   ];
 // });
 
+//This will populate everything
+
+var list = [
+  {names:"McDonald's", crime: "High", cuisine:"Fast Food", range:"1", image:"images/swiping_temp/Mcdonalds.jpg"},
+  {names:"Pattaya", crime: "Low", cuisine:"Thai", range:"2", image:"images/swiping_temp/Pattaya.jpg"},
+  {names:"Farmacy", crime: "Medium", cuisine:"Breakfast", range:"2", image:"images/swiping_temp/Farmacy.jpg"},
+  {names:"Buddakan", crime: "High", cuisine:"Chinese", range:"3", image:"images/swiping_temp/Buddakan.jpg"}
+];
+
+var count = 0;
+
+//Insert the HTML foundation necessary
+//Insert HTML for the images
+var a;
+for (a = 0; a < list.length; a++) {
+  // console.log("HI");
+  document.getElementById('image_slider').innerHTML = document.getElementById('image_slider').innerHTML + '<div class="item"><img id="image_' + a + '" src="' + list[a].image + '" /></div>';
+  document.getElementById('text_slider').innerHTML = document.getElementById('text_slider').innerHTML + '<div class="item" id="' + a + '"><span id="names_' + a + '">' + list[a].names + 
+  '</span><span>Crime:<text id="crime_' + a + '">' + list[a].crime + '</text></span><span id="cuisine_' + a + '">' + list[a].cuisine + '</span><span id="range_' + a + '">' + list[a].range + '</span></div>';
+}
+
+//Insert HTML for the text
+
+
+
+
+
+// var changeSlide = function(slideNum) {
+//   // $('#name_'+slideNum).text(list[count].name);
+//   // console.log(  $('#name_'+slideNum).text())
+//   $('#names_'+slideNum).text(list[count].names);
+//   $('#crime_'+slideNum).text(list[count].crime);
+//   $('#cuisine_'+slideNum).text(list[count].cuisine);
+//   $('#range_'+slideNum).text(list[count].range);
+//   $('#image_'+slideNum).attr('src', list[count].image);
+//   count++;
+//   // if (count == list.length) {
+//   //   count = 0;
+//   // }
+// }
+
+// var i;
+// for (i = 0; i < list.length; i++) { 
+//     changeSlide(i);
+// }
+
 $(".yes").hide();
 $(".no").hide();
 
@@ -42,28 +88,6 @@ for (i = 0; i < maxItems; i++) {
   $(reverseItems[i]).appendTo($('.slider', $sliderRight));
 }
 
-var list = [
-  {name:"McDonald's", crime: "High", cuisine:"Fast Food", range:"1", image:"images/swiping_temp/Mcdonalds.jpg"},
-  {name:"Pattaya", crime: "Low", cuisine:"Thai", range:"1", image:"images/swiping_temp/Pattaya.jpg"},
-  {name:"Farmacy", crime: "Medium", cuisine:"Breakfast", range:"2", image:"images/swiping_temp/Farmacy.jpg"},
-  {name:"Buddakan", crime: "High", cuisine:"Chinese", range:"3", image:"images/swiping_temp/Buddakan.jpg"}
-];
-
-var count = 0;
-
-var changeSlide = function(slideNum) {
-  // $('#name_'+slideNum).text(list[count].name);
-  // console.log(  $('#name_'+slideNum).text())
-  $('#crime_'+slideNum).text(list[count].crime);
-  $('#cuisine_'+slideNum).text(list[count].cuisine);
-  $('#range_'+slideNum).text(list[count].range);
-  $('#image_'+slideNum).attr('src', list[count].image);
-  count++;
-  if (count == list.length) {
-    count = 0;
-  }
-}
-
 $slider.addClass('slideshow-left');
 $('.slideshow-left').slick({
   vertical: true,
@@ -75,15 +99,15 @@ $('.slideshow-left').slick({
   cssEase: 'cubic-bezier(0.7, 0, 0.3, 1)'
 }).on('beforeChange', function(event, slick, currentSlide, nextSlide) {
   if (currentSlide > nextSlide && nextSlide == 0 && currentSlide == maxItems - 1) {
-    changeSlide(currentSlide);
+    // changeSlide(currentSlide);
     $('.slideshow-right .slider').slick('slickGoTo', -1);
     $('.slideshow-text').slick('slickGoTo', maxItems);
   } else if (currentSlide < nextSlide && currentSlide == 0 && nextSlide == maxItems - 1) {
-    changeSlide(currentSlide);
+    // changeSlide(currentSlide);
     $('.slideshow-right .slider').slick('slickGoTo', maxItems);
     $('.slideshow-text').slick('slickGoTo', -1);
   } else {
-    changeSlide(currentSlide);
+    // changeSlide(currentSlide);
     $('.slideshow-right .slider').slick('slickGoTo', maxItems - 1 - nextSlide);
     $('.slideshow-text').slick('slickGoTo', nextSlide);
   }
@@ -150,3 +174,25 @@ $('.slideshow-text').slick({
   speed: 750,
   cssEase: 'cubic-bezier(0.7, 0, 0.3, 1)'
 });
+
+// var list = [
+//   {name:"McDonald's", crime: "High", cuisine:"Fast Food", range:"1", image:"images/swiping_temp/Mcdonalds.jpg"},
+//   {name:"Pattaya", crime: "Low", cuisine:"Thai", range:"1", image:"images/swiping_temp/Pattaya.jpg"},
+//   {name:"Farmacy", crime: "Medium", cuisine:"Breakfast", range:"2", image:"images/swiping_temp/Farmacy.jpg"},
+//   {name:"Buddakan", crime: "High", cuisine:"Chinese", range:"3", image:"images/swiping_temp/Buddakan.jpg"}
+// ];
+
+// var count = 0;
+
+// var changeSlide = function(slideNum) {
+//   // $('#name_'+slideNum).text(list[count].name);
+//   // console.log(  $('#name_'+slideNum).text())
+//   $('#crime_'+slideNum).text(list[count].crime);
+//   $('#cuisine_'+slideNum).text(list[count].cuisine);
+//   $('#range_'+slideNum).text(list[count].range);
+//   $('#image_'+slideNum).attr('src', list[count].image);
+//   count++;
+//   if (count == list.length) {
+//     count = 0;
+//   }
+// }
