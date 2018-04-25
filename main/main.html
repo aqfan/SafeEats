@@ -1,160 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>SafeEats - Login</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-<!-- 	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
-    <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
-	<script src="https://apis.google.com/js/api:client.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDAWK-7YEOZJBn2kAdAf6-6NA2f1SGjr-o&libraries=places&callback=initMap"
-         async defer></script>
-  
-	<script src="/index.js"></script>
-	<script src="/main.js"></script>
-	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<title>User Preferences</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--===============================================================================================-->
+  <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+  <!--===============================================================================================-->
+  <!-- <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css"> -->
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+  <!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="css/util.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"/>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!--===============================================================================================-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+  <script src='https://code.jquery.com/jquery-3.1.0.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/angular.checklist-model/0.1.3/checklist-model.min.js"></script>
+  <script src="https://apis.google.com/js/api:client.js"></script>
 
-	<style>
-		.field{
-			box-sizing: border-box;
-		}
-		.button {
-		    background-color: #008CBA;
-		    border: none;
-		    color: white;
-		    padding: 10px 15px;
-		    text-align: center;
-		    text-decoration: none;
-		    display: inline-block;
-		    font-size: 14px;
-		    margin: 4px 2px;
-		    cursor: pointer;
-		}
-		#map {
-		  max-width: inherit;
-		  height: 300px;
-		  width: 100%;
-		  margin-top: 30px;
-		}
-		#description {
-	      font-family: Roboto;
-	      font-size: 15px;
-	      font-weight: 300;
-	    }
+  <script src="/main.js"></script>
 
-	    #infowindow-content .title {
-	      font-weight: bold;
-	    }
-
-        #infowindow-content {
-          display: none;
-        }
-
-        #map #infowindow-content {
-          display: inline;
-        }
-
-        .pac-card {
-        margin: 10px 10px 0 0;
-        border-radius: 2px 0 0 2px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        outline: none;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        background-color: #fff;
-        font-family: Roboto;
-        }
-
-	      #pac-container {
-	        padding-bottom: 12px;
-	        margin-right: 12px;
-	      }
-
-	      .pac-controls {
-	        display: inline-block;
-	        padding: 5px 11px;
-	      }
-
-	      .pac-controls label {
-	        font-family: Roboto;
-	        font-size: 13px;
-	        font-weight: 300;
-	      }
-
-	      #pac-input {
-	        background-color: #fff;
-	        font-family: Roboto;
-	        font-size: 15px;
-	        font-weight: 300;
-	        margin-left: 12px;
-	        padding: 0 11px 0 13px;
-	        text-overflow: ellipsis;
-	        width: 400px;
-	      }
-
-	      #pac-input:focus {
-	        border-color: #4d90fe;
-	      }
-
-	</style>
 </head>
-<body ng-app="homeApp">
+<body ng-app= "main">
 
-	<div class="limiter">
-
+	<div class="limiter" ng-controller="getStarted">
     <nav class="navbar-default collapse navbar-collapse navbar-fixed-top">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-		      <a class="navbar-brand" href="/main">SafeEats</a>
-		    </div>
-		    <ul class="nav navbar-nav">
-		      <li class="active"><a href="#">Home</a></li>
-		      <li><a href="/preferences">Preferences</a></li>
-		      <li><a href="/find_restaurant">Find a Restaurant</a></li>
-		      <li><a href="/saved_restaurants">Saved Restaurants</a></li>
-		      <li><a href="#" class="action-logout">Sign Out</a></li>
-		    </ul>
-		  </div>
-		</nav>
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/main">SafeEats</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="/preferences">Preferences</a></li>
+          <li><a href="/find_restaurant">Find a Restaurant</a></li>
+          <li><a href="/saved_restaurants">Saved Restaurants</a></li>
+          <li><a href="/search">Search for Restaurants</a></li>
+          <li><a href="#" class="action-logout">Sign Out</a></li>
+        </ul>
+      </div>
+    </nav>
 
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<div class="homeContent">
-					<h1> Welcome to SafeEats! </h1>
-					<div ng-controller="homeController" class="details">
+				<form class="login100-form validate-form flex-sb flex-w">
+					<span class="login100-form-title p-b-53">
+						Welcome to safeEats!
+					</span>
 
-						<p> Find places to grab food in areas you feel safe and comfortable!</p>
-						<p> Find a restaurant using the above menu, or check out past restaurants you've saved. </p>
+					<div class="p-t-31 p-b-9 fs-20">
+						<span class="txt3">
+							hungry? <br>
+							new to the city? <br>
+							we got you covered.
+						</span>
 					</div>
-					<input id="pac-input" class="controls" type="text" placeholder="Search for restaurants">
-					<div class="map" id="map"></div>
-				</div>
+
+					<img src="images/icons/pizza-xl.png"
+					alt="onlinewebfonts.com" style="width:100px;height:100px;">
+
+
+					<div class="p-t-31 p-b-9 text-center">
+						<span class="txt4">
+							find and save restaurants in your area based on: <br>
+							<img src="images/icons/check-mark-3-xxl.png" style="width:10px;height:10px;">
+							Cuisine <br>
+							<img src="images/icons/check-mark-3-xxl.png" style="width:10px;height:10px;">
+							Price Range <br>
+							<img src="images/icons/check-mark-3-xxl.png" style="width:10px;height:10px;">
+							Location <br>
+							<img src="images/icons/check-mark-3-xxl.png" style="width:10px;height:10px;">
+							Area Safety <br>
+						</span>
+					</div>
+
+
+					<div class="container-login100-form-btn m-t-17">
+						<button type="button"  class="login100-form-btn" ng-click="submit()">
+							Get started!
+						</button>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
+
 
 	<div id="dropDownSelect1"></div>
 
@@ -173,7 +118,6 @@
 <!--===============================================================================================-->
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
-
 
 </body>
 </html>

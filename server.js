@@ -31,7 +31,6 @@ app.get('/signup.js', function(request, response) {
 })
 
 app.get('/main', function(request, response) {
-  console.log(username);
 	response.sendFile(path.join(__dirname, '/', 'main/main.html'));
 })
 
@@ -57,6 +56,14 @@ app.get('/saved_restaurants.js', function(request, response) {
 
 app.get('/saved_restaurants', function(request, response) {
 	response.sendFile(path.join(__dirname, '/', 'saved_restaurants/saved_restaurants.html'));
+})
+
+app.get('/search.js', function(request, response) {
+	response.sendFile(path.join(__dirname, '/', 'search/search.js'));
+})
+
+app.get('/search', function(request, response) {
+	response.sendFile(path.join(__dirname, '/', 'search/search.html'));
 })
 
 app.get('/selector.js', function(request, response) {
@@ -137,13 +144,14 @@ app.get('/getRestaurants', function(request, response) {
     {
       if (err) { console.error('oracle-error:'+err); return; }
       connection.execute(
-        'WITH T1 AS (SELECT Username, Business_id, Restaurants.Name, Restaurants.Stars, Restaurants.Price_Range, Address, Restaurants.Postal_Code, Restaurants.Crime_Rates '+
+        'SELECT * FROM '+
+        '(WITH T1 AS (SELECT Username, Business_id, Restaurants.Name, Restaurants.Stars, Restaurants.Price_Range, Address, Restaurants.Postal_Code, Restaurants.Crime_Rates '+
         'FROM Restaurants JOIN Preferences ON '+
         'preferences.Stars <= Restaurants.Stars '+
         'AND '+
         'Restaurants.crime_rates <= preferences.crime_rates '+
         'AND '+
-        'Restaurants.price_range = preferences.Price_range '+
+        'Restaurants.price_range <= preferences.Price_range '+
         'WHERE Username LIKE \'' + username + '\'), '+
         'T2 AS (SELECT Username, T1.Business_id, photo_id, T1.Name, T1.Stars, T1.Price_Range, Address, T1.Postal_Code, T1.Crime_Rates '+
         'FROM T1 JOIN PHOTOS ON '+
@@ -152,7 +160,8 @@ app.get('/getRestaurants', function(request, response) {
         'FROM Restaurants JOIN Pref_cuisine ON '+
         'Restaurants.Categories LIKE (\'%\'||Pref_cuisine.cuisine||\'%\') '+
         'WHERE Username LIKE \'' + username + '\') '+
-        'SELECT DISTINCT T2.Username, T2.photo_id, T2.business_id, T2.Name, T2.Stars, T2.Price_range, T2.Address, T2.Postal_code, T2.crime_Rates FROM T2 JOIN T3 ON T2.username = T3.username',
+        'SELECT DISTINCT T2.Username, T2.photo_id, T2.business_id, T2.Name, T2.Stars, T2.Price_range, T2.Address, T2.Postal_code, T2.crime_Rates FROM T2 JOIN T3 ON T2.username = T3.username) ' +
+        'WHERE rownum <= 100',
         function(err, result)
         {
           if (err) { console.error(err); return; }
@@ -210,8 +219,8 @@ app.get('/addNewUser', function(request, response) {
           });
         });
       connection.execute(
-        'INSERT INTO PREFERENCES (USERNAME) ' +
-        'VALUES (\'' + username + '\')',
+        'INSERT INTO PREFERENCES (USERNAME, STARS, PRICE_RANGE, CRIME_RATES) ' +
+        'VALUES (\'' + username + '\', 1, 4, 54126)',
         function(err, result)
         {
           if (err) { console.error(err); return; }
@@ -219,7 +228,17 @@ app.get('/addNewUser', function(request, response) {
             if (error) {console.error(error); return;}
           });
         });
-      response.json();
+        connection.execute(
+          'INSERT INTO PREF_CUISINE (USERNAME, CUISINE) ' +
+          'VALUES (\'' + username + '\', \'Burgers\')',
+          function(err, result)
+          {
+            if (err) { console.error(err); return; }
+            connection.commit(function(error) {
+              if (error) {console.error(error); return;}
+            });
+          });
+      response.json(username);
 
     });
 });
@@ -379,7 +398,6 @@ app.get('/checkCuisinePrefs', function(request, response) {
 
 app.get('/saveCuisinePrefs', function(request, response) {
   var cuisine = request.query.cuisine;
-  console.log(cuisine);
   oracledb.getConnection(
     {
       user          : "SafeEats",

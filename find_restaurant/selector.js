@@ -1,8 +1,6 @@
 //List of restaurants and their information
 var list = [];
 
-var allRestaurants = [];
-
 //Hide the Yes and Eww Text
 $(".yes").hide();
 $(".no").hide();
@@ -24,8 +22,6 @@ $.ajax({
   url: "/getRestaurants",
   type: 'GET',
   success: function(arr) {
-    console.log(arr);
-    allRestaurants = arr;
     for(var i = 0; i < arr.length; i++) {
       var element = {};
       element.names = arr[i][3];
